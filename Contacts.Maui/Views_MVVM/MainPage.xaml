@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Contacts.Maui.Views_MVVM.MainPage" 
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+  
+  <ScrollView VerticalOptions="Start">
+
+    <Grid Padding="1" RowDefinitions="300, *" ColumnDefinitions="*" RowSpacing="5" VerticalOptions="Start">
+      
+      <VerticalStackLayout BackgroundColor="Transparent" Grid.Row="0" Grid.Column="0" Spacing="10" Padding="50" VerticalOptions="Center" HeightRequest="300">
+        
+        <!--images-->
+        <Grid Padding="1" RowDefinitions="*" ColumnDefinitions="*" RowSpacing="5" VerticalOptions="Center">
+          <Image Grid.Row="0" Grid.Column="0" Source="spoke_new.png" HeightRequest="200" HorizontalOptions="Center">
+            <Image.Behaviors>
+              <toolkit:IconTintColorBehavior TintColor="Blue" />
+            </Image.Behaviors>
+          </Image>
+          <Image Grid.Row="0" Grid.Column="0" Source="dot_new.png" HeightRequest="200" HorizontalOptions="Center">
+            <Image.Behaviors>
+              <toolkit:IconTintColorBehavior TintColor="Red" />
+            </Image.Behaviors>
+          </Image>
+          <Image Grid.Row="0" Grid.Column="0" Source="ring_new.png" HeightRequest="200" HorizontalOptions="Center">
+            <Image.Behaviors>
+              <toolkit:IconTintColorBehavior TintColor="Gold" />
+            </Image.Behaviors>
+          </Image>
+          <Image Grid.Row="0" Grid.Column="0" Source="base_new.png" HeightRequest="200" HorizontalOptions="Center">
+            <Image.Behaviors>
+              <toolkit:IconTintColorBehavior TintColor="Black" />
+            </Image.Behaviors>
+          </Image>
+          <Label Grid.Row="0" Grid.Column="0" Text="1000000" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
+      </VerticalStackLayout>
+
+      <!--buttons-->
+        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="10" Padding="10" VerticalOptions="Center">
+          <Button x:Name="ContactsBtn" Text="Contacts" WidthRequest="100" SemanticProperties.Hint="Go to Contacts." Clicked="OnContactClicked" HorizontalOptions="Center" />
+          <Button x:Name="GamesBtn" Text="Games" WidthRequest="100" SemanticProperties.Hint="Go to Games." Clicked="OnGameClicked" HorizontalOptions="Center" />
+          <Button x:Name="ChipsetsBtn" Text="Chipsets" WidthRequest="100" SemanticProperties.Hint="Go to Chipsets." Clicked="OnChipsetClicked" HorizontalOptions="Center" />
+          <Button x:Name="AboutBtn" Text="About" WidthRequest="100" SemanticProperties.Hint="Go to About." Clicked="OnAboutClicked" HorizontalOptions="Center" />
+          <Button x:Name="EndBtn" Text="End" WidthRequest="100" SemanticProperties.Hint="End App." Clicked="OnEndClicked" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    
+    </Grid>
+
+  </ScrollView>
+
+</ContentPage>
