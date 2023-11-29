@@ -63,8 +63,8 @@ namespace Contacts.Maui.ViewModels.Blinds
 			int[] test = new int[3];
 			double[] error = new double[3];
 
-			// loo here until num / denomination is greater than 1.0
-			for (i = 0; i < chips.Count - 1; i++)
+			// loop here until num / denomination is greater than 1.0
+			for (i = 1; i < chips.Count - 2; i++)
 			{
 				if ((num / chips[i].Denomination) > 1.0)
 				{
@@ -74,7 +74,6 @@ namespace Contacts.Maui.ViewModels.Blinds
 						test[j] = (int)(Math.Round(num / chips[i + j - 1].Denomination) * chips[i + j - 1].Denomination);
 						error[j] = Math.Abs(test[j] - num) / num;
 					}
-
 
 					// see which one is closest
 					if ((error[0] < error[1]) && (error[0] < error[2]))
@@ -93,7 +92,9 @@ namespace Contacts.Maui.ViewModels.Blinds
 
 		private async Task AddBlinds()
 		{
-			// most poker tournaments start to end when 10 blinds are left
+			// most poker tournaments begin to end when 10 blinds are left
+			const int blindsLeft = 10;
+
 			Game game = await viewGameUseCase.ExecuteAsync(Helper.GameId);
 
 			int duration = game.DurationExp;
@@ -102,9 +103,9 @@ namespace Contacts.Maui.ViewModels.Blinds
 			// levelCount should be duration / blindtime 
 			int levelCount = duration / blindTime;
 
-			int total = (game.PlayersExp * game.ChipsStart + game.RebuyExp * game.RebuyChips + game.AddonExp * game.AddonChips) / 10;
+			int total = (game.PlayersExp * game.ChipsStart + game.RebuyExp * game.RebuyChips + game.AddonExp * game.AddonChips) / blindsLeft;
 
-			var chips = await viewChipsUseCase.ExecuteAsync(game.ChipSet.ToString());
+			var chips = await viewChipsUseCase.ExecuteAsync((game.ChipSet + 1).ToString());
 
 			chips.Sort((x, y) => y.Denomination.CompareTo(x.Denomination));
 
@@ -119,13 +120,15 @@ namespace Contacts.Maui.ViewModels.Blinds
 				double target = a * Math.Pow(b, i);
 				int actual = BestFit(target, chips);
 
-				Blind blind = new Blind();
-				blind.GameId = Helper.GameId;
-				blind.BlindNo = i + 1;
-				blind.Amount = actual;
-				blind.Ante = (int)target;
+        Blind blind = new()
+        {
+          GameId = Helper.GameId,
+          BlindNo = i + 1,
+          Amount = actual,
+          Ante = (int)target
+        };
 
-				await addBlindUseCase.ExecuteAsync(blind);
+        await addBlindUseCase.ExecuteAsync(blind);
 			}
 		}
 
