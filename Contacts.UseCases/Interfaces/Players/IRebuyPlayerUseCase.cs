@@ -1,0 +1,7 @@
+﻿namespace Contacts.UseCases.Interfaces.Players
+{
+    public interface IRebuyPlayerUseCase
+    {
+        Task ExecuteAsync(int playerId);
+    }
+}
