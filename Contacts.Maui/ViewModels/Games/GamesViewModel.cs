@@ -48,7 +48,7 @@ namespace Contacts.Maui.ViewModels.Games
 
 			if (chipsets != null && chipsets.Count > 0)
 				foreach (var chipset in chipsets)
-					Helper.Names.Add(chipset.Description + chipset.Denominations);
+					Helper.Names.Add(chipset.Description + " " + chipset.Denominations);
 		}
 
 		[RelayCommand]
