@@ -1,3 +1,4 @@
+using Contacts.CoreBusiness;
 using Contacts.Maui.ViewModels.Games;
 
 namespace Contacts.Maui.Views_MVVM.Games;
@@ -11,6 +12,18 @@ public partial class Games_Page_MVVM : ContentPage
     InitializeComponent();
 
     BindingContext = this.gamesViewModel = gamesViewModel;
+  }
+
+  private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+  {
+    IReadOnlyList<object> currentSelection = e.CurrentSelection;
+
+    var current = currentSelection.FirstOrDefault();
+
+    Helper.GameId = (current as Game).GameId;
+
+    //if (sender is CollectionView cv && cv.SelectedItem is Game selectedGame)
+    //  ((GamesViewModel)BindingContext).GameId = selectedGame.GameId;
   }
 
   protected override async void OnAppearing()

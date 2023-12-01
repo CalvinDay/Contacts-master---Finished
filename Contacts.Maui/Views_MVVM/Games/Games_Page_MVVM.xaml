@@ -31,9 +31,9 @@
 				</Frame>
 			</HorizontalStackLayout>
 		</StackLayout>
-		
+
 		<!--table view-->
-		<CollectionView x:Name="GamesCollection" ItemsSource="{Binding Games}" SelectionMode="Single" Grid.Row="1" Grid.Column="0">
+		<CollectionView x:Name="GamesCollection" ItemsSource="{Binding Games}" SelectionMode="Single" Grid.Row="1" Grid.Column="0" SelectionChanged="OnCollectionViewSelectionChanged">
 			<CollectionView.ItemTemplate>
 				<DataTemplate x:DataType="m:Game">
 					<StackLayout>
@@ -75,9 +75,10 @@
 		
 		<!--buttom buttons-->
 		<StackLayout Grid.Row="2" Grid.Column="0">
-			<Grid Padding="1" RowDefinitions="*" ColumnDefinitions="*, *" RowSpacing="5" ColumnSpacing="2">
-				<Button Grid.Row="0" Grid.Column="0" Text="Add Game" Command="{Binding GotoAddGameCommand}" />
-				<Button Grid.Row="0" Grid.Column="1" Text="Back" Command="{Binding GotoHomeCommand}" />
+			<Grid Padding="1" RowDefinitions="*" ColumnDefinitions="*, *, *" RowSpacing="5" ColumnSpacing="2">
+				<Button Grid.Row="0" Grid.Column="0" Text="Copy" Command="{Binding GotoCopyGameCommand}" />
+				<Button Grid.Row="0" Grid.Column="1" Text="Add" Command="{Binding GotoAddGameCommand}" />
+				<Button Grid.Row="0" Grid.Column="2" Text="Back" Command="{Binding GotoHomeCommand}" />
 			</Grid>
 		</StackLayout>
 		

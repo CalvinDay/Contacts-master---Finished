@@ -19,7 +19,7 @@ namespace Contacts.Maui.ViewModels.Games
 		public Game game;
 		private readonly IViewGameUseCase viewGameUseCase;
 		private readonly IEditGameUseCase editGameUseCase;
-		private readonly IAddGameUseCase addGameUseCase;
+    private readonly IAddGameUseCase addGameUseCase;
 
     public Game Game
 		{
@@ -32,17 +32,17 @@ namespace Contacts.Maui.ViewModels.Games
     public GameViewModel(
 				IViewGameUseCase viewGameUseCase,
 				IEditGameUseCase editGameUseCase,
-				IAddGameUseCase addGameUseCase
-				)
-		{
-			Game = new Game();
+        IAddGameUseCase addGameUseCase
+        )
+    {
+			Game = new();
 
 			this.viewGameUseCase = viewGameUseCase;
 			this.editGameUseCase = editGameUseCase;
-			this.addGameUseCase = addGameUseCase;
-		}
+      this.addGameUseCase = addGameUseCase;
+    }
 
-		public async Task LoadGame(int gameId)
+    public async Task LoadGame(int gameId)
 		{
 			Game = await viewGameUseCase.ExecuteAsync(gameId);
 		}
@@ -57,8 +57,8 @@ namespace Contacts.Maui.ViewModels.Games
 		[RelayCommand]
 		public async Task AddGame()
 		{
-			await addGameUseCase.ExecuteAsync(game);
-			await Shell.Current.GoToAsync("..");
+      await addGameUseCase.ExecuteAsync(game);
+      await Shell.Current.GoToAsync("..");
 		}
 
 		[RelayCommand]
