@@ -96,16 +96,18 @@ namespace Contacts.Maui.ViewModels.Contacts
 			Contact contact = await viewContactUseCase.ExecuteAsync(contactId);
 			Game game = await viewGameUseCase.ExecuteAsync(Helper.GameId);
 
-			Player player = new Player();
+      Player player = new()
+      {
+        GameId = Helper.GameId,
+        ContactId = contactId,
+        Name = contact.Name,
+        Handle = contact.Handle,
+        Amount = game.ChipsStart,
+        Rebuys = game.Rebuys
+      };
 
-			player.GameId = Helper.GameId;
-			player.ContactId = contactId;
-			player.Name = contact.Name;
-			player.Handle = contact.Handle;
-			player.Amount = game.ChipsStart;
-			player.Rebuys = game.Rebuys;
+      await addPlayerUseCase.ExecuteAsync(player);
 
-			await addPlayerUseCase.ExecuteAsync(player);
 			await LoadContacts();
 		}
 

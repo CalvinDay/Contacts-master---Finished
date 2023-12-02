@@ -11,13 +11,13 @@
 			
 		<!--search bar-->
 		<StackLayout Grid.Row="0" Grid.Column="0">
-			<SearchBar x:Name="SearchBar" Placeholder="Search Contacts" Text="{Binding FilterText}" />
+			<SearchBar x:Name="SearchBar" Placeholder="Search Players" Text="{Binding FilterText}" />
 		</StackLayout>
 			
 		<!--heading-->
 		<StackLayout Grid.Row="1" Grid.Column="0">
 			<HorizontalStackLayout>
-				<Frame Margin="0,0,0,0">
+        <Frame Margin="0,0,0,0" BackgroundColor="LightGreen">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />

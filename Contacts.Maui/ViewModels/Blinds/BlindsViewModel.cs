@@ -110,7 +110,7 @@ namespace Contacts.Maui.ViewModels.Blinds
 
       int total = (game.PlayersExp * game.ChipsStart + game.RebuyExp * game.RebuyChips + game.AddonExp * game.AddonChips) / blindsLeft;
 
-      var chips = await viewChipsUseCase.ExecuteAsync((game.ChipSet + 1).ToString());
+      var chips = await viewChipsUseCase.ExecuteAsync((game.ChipSet).ToString());
 
       chips.Sort((x, y) => y.Denomination.CompareTo(x.Denomination));
 

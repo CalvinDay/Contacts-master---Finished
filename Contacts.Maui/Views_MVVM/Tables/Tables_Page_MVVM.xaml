@@ -15,7 +15,7 @@
 				<Frame Margin="0,0,0,0" BackgroundColor="LightGreen">
 					<Grid>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="1000" />
+							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="80" />
@@ -40,8 +40,8 @@
 									<SwipeItem Text="Delete" IsDestructive="True" BackgroundColor="Red" Command="{Binding Source={x:Reference TablesCollection}, Path=BindingContext.DeleteTableCommand}" CommandParameter="{Binding TableId}"></SwipeItem>
 								</SwipeItems>
 							</SwipeView.RightItems>
-							<StackLayout>
-								<Frame Margin="0,0,0,0" BackgroundColor="Transparent">
+              <Frame Margin="0,0,0,0" BackgroundColor="Transparent">
+                <StackLayout>
 									<StackLayout Orientation="Horizontal" Spacing="1">
 										<Grid>
 											<Grid.RowDefinitions>
@@ -54,10 +54,10 @@
 											<Label Grid.Column="0" Text="{Binding TableNo}"></Label>
 											<CheckBox x:Name="checkbox" HorizontalOptions="Start" Grid.Column="1" IsChecked="{Binding IsChecked}" />
 										</Grid>
-									</StackLayout>
-								</Frame>
+								</StackLayout>
 							</StackLayout>
-						</SwipeView>
+              </Frame>
+            </SwipeView>
 					</StackLayout>
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
@@ -66,7 +66,7 @@
 		<!--bottom buttons-->
 		<StackLayout Grid.Row="2" Grid.Column="0">
 			<Grid Padding="1" RowDefinitions="*" ColumnDefinitions="*, *" RowSpacing="5" ColumnSpacing="2">
-				<Button Grid.Row="0" Grid.Column="0" Text="Add Payout" Command="{Binding GotoAddTableCommand}"></Button>
+				<Button Grid.Row="0" Grid.Column="0" Text="Add Table" Command="{Binding GotoAddTableCommand}"></Button>
 				<Button Grid.Row="0" Grid.Column="1" Text="Back" Command="{Binding GoBackCommand}"></Button>
 			</Grid>
 		</StackLayout>
