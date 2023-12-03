@@ -46,9 +46,10 @@ namespace Contacts.Maui.ViewModels.Blinds
     {
       Blinds.Clear();
 
-      var blinds = await viewBlindsUseCase.ExecuteAsync(Helper.GameId.ToString());
+      var gameId = Helper.GameId.ToString();
+      var blinds = await viewBlindsUseCase.ExecuteAsync(gameId);
 
-      if (blinds != null && blinds.Count > 0)
+      if (blinds?.Count > 0)
         foreach (var blind in blinds)
           Blinds.Add(blind);
     }

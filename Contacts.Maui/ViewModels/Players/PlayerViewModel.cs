@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Contacts.Maui.Views_MVVM.Players;
 using Contacts.UseCases.Interfaces.Players;
 using Contacts.CoreBusiness;
 

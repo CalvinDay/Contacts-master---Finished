@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Contacts.Maui.Views_MVVM.Blinds;
 using Contacts.UseCases.Interfaces.Blinds;
 using Contacts.CoreBusiness;
 
@@ -46,7 +45,7 @@ namespace Contacts.Maui.ViewModels.Blinds
 		}
 
 		[RelayCommand]
-		public async Task RebuyBlind()
+		public static async Task RebuyBlind()
 		{
 			await Task.Run(() =>
 			{
@@ -56,12 +55,12 @@ namespace Contacts.Maui.ViewModels.Blinds
 		[RelayCommand]
 		public async Task AddBlind()
 		{
-			await addBlindUseCase.ExecuteAsync(blind);
-			await Shell.Current.GoToAsync("..");
+      await addBlindUseCase.ExecuteAsync(blind);
+      await Shell.Current.GoToAsync("..");
 		}
 
 		[RelayCommand]
-		public async Task BackToBlinds()
+		public static async Task BackToBlinds()
 		{
 			await Shell.Current.GoToAsync("..");
 		}

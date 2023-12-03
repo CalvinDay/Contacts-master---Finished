@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 using Contacts.CoreBusiness;
 using Contacts.UseCases.Interfaces.Games;
 using Contacts.UseCases.Interfaces.Chipsets;
+using Contacts.UseCases.Interfaces.Blinds;
+using Contacts.UseCases.Interfaces.Payouts;
+using static Android.Graphics.ColorSpace;
 
 namespace Contacts.Maui.ViewModels.Games
 {
@@ -14,6 +17,10 @@ namespace Contacts.Maui.ViewModels.Games
     private readonly IDeleteGameUseCase deleteGameUseCase;
     private readonly IViewChipsetsUseCase viewChipsetsUseCase;
     private readonly IAddGameUseCase addGameUseCase;
+    private readonly IViewBlindsUseCase viewBlindsUseCase;
+    private readonly IAddBlindUseCase addBlindUseCase;
+    private readonly IViewPayoutsUseCase viewPayoutsUseCase;
+    private readonly IAddPayoutUseCase addPayoutUseCase;
 
     public ObservableCollection<Game> Games { get; set; }
 
@@ -21,13 +28,21 @@ namespace Contacts.Maui.ViewModels.Games
         IViewGamesUseCase viewGamesUseCase,
         IDeleteGameUseCase deleteGameUseCase,
         IViewChipsetsUseCase viewChipsetsUseCase,
-        IAddGameUseCase addGameUseCase
+        IAddGameUseCase addGameUseCase,
+        IViewBlindsUseCase viewBlindsUseCase,
+        IAddBlindUseCase addBlindUseCase,
+        IViewPayoutsUseCase viewPayoutsUseCase,
+        IAddPayoutUseCase addPayoutUseCase
         )
     {
       this.viewGamesUseCase = viewGamesUseCase;
       this.deleteGameUseCase = deleteGameUseCase;
       this.viewChipsetsUseCase = viewChipsetsUseCase;
       this.addGameUseCase = addGameUseCase;
+      this.viewBlindsUseCase = viewBlindsUseCase;
+      this.addBlindUseCase = addBlindUseCase;
+      this.viewPayoutsUseCase = viewPayoutsUseCase;
+      this.addPayoutUseCase = addPayoutUseCase;
 
       Games = new ObservableCollection<Game>();
     }
@@ -82,24 +97,71 @@ namespace Contacts.Maui.ViewModels.Games
       await Shell.Current.GoToAsync($"{nameof(EditGamePage_MVVM)}?GameId={gameId}");
     }
 
+    public async Task CopyBlinds(int newGameId)
+    {
+      var gameId = Helper.GameId.ToString();
+
+      // load blinds with current GameId
+      var blinds = await viewBlindsUseCase.ExecuteAsync(gameId);
+
+      if (blinds != null && blinds?.Count > 0)  
+        foreach (var blind in blinds)
+        {
+          Blind blind_ = new();
+
+          Helper.MapProperties(blind, blind_);
+
+          blind_.GameId = newGameId;
+
+          await addBlindUseCase.ExecuteAsync(blind_);
+        }
+    }
+
+    public async Task CopyPayouts(int newGameId)
+    {
+      var gameId = Helper.GameId.ToString();
+
+      // load blinds with current GameId
+      var payouts = await viewPayoutsUseCase.ExecuteAsync(gameId);
+
+      if (payouts != null && payouts?.Count > 0)
+        foreach (var payout in payouts)
+        {
+          Payout payout_ = new();
+
+          Helper.MapProperties(payout, payout_);
+
+          payout_.GameId = newGameId;
+
+          await addPayoutUseCase.ExecuteAsync(payout_);
+        }
+    }
+
     [RelayCommand]
     public async Task GotoCopyGame()
     {
-      Game game = new();
+      int currentGameIndex = Games
+          .Select((g, index) => new { Game = g, Index = index })
+          .FirstOrDefault(item => item.Game.GameId == Helper.GameId)?.Index ?? -1;
 
-      int currentGameIndex = Games.Select((game, index) => new { Game = game, Index = index })
-                                 .FirstOrDefault(item => item.Game.GameId == Helper.GameId)?.Index ?? -1;
+      if (currentGameIndex != -1 && currentGameIndex < Games.Count)
+      {
+        Game game = new();
 
-      // copy fields
-      Helper.MapProperties(Games[currentGameIndex], game);
+        // Ensure Helper.MapProperties correctly maps properties from source to target
+        Helper.MapProperties(Games[currentGameIndex], game);
 
-      // clear GameId else will not store
-      game.GameId = 0;
+        // Add new game
+        await addGameUseCase.ExecuteAsync(game);
 
-      // add new game
-      await addGameUseCase.ExecuteAsync(game);
+        // newly added game should be first in list
+        await LoadGames();
 
-      await LoadGames();
+        await CopyBlinds(Games[0].GameId);
+
+        await CopyPayouts(Games[0].GameId);
+      }
+
     }
 
     [RelayCommand]
