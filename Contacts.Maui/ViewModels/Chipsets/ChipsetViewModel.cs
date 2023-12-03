@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Contacts.Maui.Views_MVVM.Chipsets;
 using Contacts.UseCases.Interfaces.Chipsets;
 using Contacts.CoreBusiness;
 
@@ -11,9 +10,9 @@ namespace Contacts.Maui.ViewModels.Chipsets
 		private Chipset chipset;
 		private readonly IViewChipsetUseCase viewChipsetUseCase;
 		private readonly IEditChipsetUseCase editChipsetUseCase;
-		private readonly IAddChipsetUseCase addChipsetUseCase;
+    private readonly IAddChipsetUseCase addChipsetUseCase;
 
-		public Chipset Chipset
+    public Chipset Chipset
 		{
 			get => chipset;
 			set => SetProperty(ref chipset, value);

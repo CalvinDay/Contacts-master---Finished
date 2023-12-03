@@ -4,7 +4,6 @@ using Contacts.Maui.Views_MVVM.Players;
 using System.Collections.ObjectModel;
 using Contacts.CoreBusiness;
 using Contacts.UseCases.Interfaces.Players;
-using Contacts.Maui.Views_MVVM.Games;
 using Contacts.Maui.Views_MVVM.Contacts;
 using Contacts.UseCases.Interfaces.Games;
 
@@ -13,8 +12,8 @@ namespace Contacts.Maui.ViewModels.Players
 	public partial class PlayersViewModel : ObservableObject
 	{
 		private readonly IViewPlayersUseCase viewPlayersUseCase;
-		private readonly IDeletePlayerUseCase deletePlayerUseCase;
-		private readonly IRebuyPlayerUseCase rebuyPlayerUseCase;
+    private readonly IDeletePlayerUseCase deletePlayerUseCase;
+    private readonly IRebuyPlayerUseCase rebuyPlayerUseCase;
 		private readonly IEditPlayerUseCase editPlayerUseCase;
 		private readonly IViewPlayerUseCase viewPlayerUseCase;
 		private readonly IViewGameUseCase viewGameUseCase;

@@ -7,7 +7,8 @@ using Contacts.UseCases.Interfaces.Games;
 using Contacts.UseCases.Interfaces.Chipsets;
 using Contacts.UseCases.Interfaces.Blinds;
 using Contacts.UseCases.Interfaces.Payouts;
-using static Android.Graphics.ColorSpace;
+using Contacts.UseCases.Interfaces.Players;
+using Contacts.UseCases.Interfaces.Tables;
 
 namespace Contacts.Maui.ViewModels.Games
 {
@@ -21,6 +22,12 @@ namespace Contacts.Maui.ViewModels.Games
     private readonly IAddBlindUseCase addBlindUseCase;
     private readonly IViewPayoutsUseCase viewPayoutsUseCase;
     private readonly IAddPayoutUseCase addPayoutUseCase;
+    private readonly IDeleteBlindUseCase deleteBlindUseCase;
+    private readonly IDeletePlayerUseCase deletePlayerUseCase;
+    private readonly IDeleteTableUseCase deleteTableUseCase;
+    private readonly IDeletePayoutUseCase deletePayoutUseCase;
+    private readonly IViewPlayersUseCase viewPlayersUseCase;
+    private readonly IViewTablesUseCase viewTablesUseCase;
 
     public ObservableCollection<Game> Games { get; set; }
 
@@ -32,7 +39,13 @@ namespace Contacts.Maui.ViewModels.Games
         IViewBlindsUseCase viewBlindsUseCase,
         IAddBlindUseCase addBlindUseCase,
         IViewPayoutsUseCase viewPayoutsUseCase,
-        IAddPayoutUseCase addPayoutUseCase
+        IAddPayoutUseCase addPayoutUseCase,
+        IDeleteBlindUseCase deleteBlindUseCase,
+        IDeletePlayerUseCase deletePlayerUseCase,
+        IDeletePayoutUseCase deletePayoutUseCase,
+        IDeleteTableUseCase deleteTableUseCase,
+        IViewPlayersUseCase viewPlayersUseCase,
+        IViewTablesUseCase viewTablesUseCase
         )
     {
       this.viewGamesUseCase = viewGamesUseCase;
@@ -43,24 +56,15 @@ namespace Contacts.Maui.ViewModels.Games
       this.addBlindUseCase = addBlindUseCase;
       this.viewPayoutsUseCase = viewPayoutsUseCase;
       this.addPayoutUseCase = addPayoutUseCase;
+      this.deleteBlindUseCase = deleteBlindUseCase;
+      this.deletePlayerUseCase = deletePlayerUseCase;
+      this.deletePayoutUseCase = deletePayoutUseCase;
+      this.deleteTableUseCase = deleteTableUseCase;
+      this.viewPlayersUseCase = viewPlayersUseCase;
+      this.viewTablesUseCase = viewTablesUseCase;
 
-      Games = new ObservableCollection<Game>();
+    Games = new ObservableCollection<Game>();
     }
-
-    //private int gameId;
-
-    //public int GameId
-    //{
-    //  get { return gameId; }
-    //  set
-    //  {
-    //    if (gameId != value)
-    //    {
-    //      gameId = value;
-    //      OnPropertyChanged(nameof(GameId));
-    //    }
-    //  }
-    //}
 
     public async Task LoadGames()
     { 
@@ -87,6 +91,18 @@ namespace Contacts.Maui.ViewModels.Games
     public async Task DeleteGame(int gameId)
     {
       await deleteGameUseCase.ExecuteAsync(gameId);
+
+      var blinds = await viewBlindsUseCase.ExecuteAsync(gameId.ToString());
+      await Helper.DeleteEntitiesAsync(blinds, async (Blind blind) => await deleteBlindUseCase.ExecuteAsync(blind.BlindId));
+
+      var players = await viewPlayersUseCase.ExecuteAsync(gameId.ToString());
+      await Helper.DeleteEntitiesAsync(players, async (Player player) => await deletePlayerUseCase.ExecuteAsync(player.PlayerId));
+
+      var payouts = await viewPayoutsUseCase.ExecuteAsync(gameId.ToString());
+      await Helper.DeleteEntitiesAsync(payouts, async (Payout payout) => await deletePayoutUseCase.ExecuteAsync(payout.PayoutId));
+
+      var tables = await viewTablesUseCase.ExecuteAsync(gameId.ToString());
+      await Helper.DeleteEntitiesAsync(tables, async (Table table) => await deleteTableUseCase.ExecuteAsync(table.TableId));
 
       await LoadGames();
     }

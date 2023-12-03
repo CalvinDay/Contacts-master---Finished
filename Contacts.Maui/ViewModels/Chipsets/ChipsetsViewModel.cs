@@ -4,38 +4,45 @@ using Contacts.Maui.Views_MVVM.Chipsets;
 using Contacts.UseCases.Interfaces.Chipsets;
 using System.Collections.ObjectModel;
 using Contacts.CoreBusiness;
-using Contacts.Maui.Views_MVVM;
 using Contacts.Maui.Views_MVVM.Chips;
 using Contacts.UseCases.Interfaces.Chips;
-using System.Reflection.Metadata;
 
 namespace Contacts.Maui.ViewModels.Chipsets
 {
 	public partial class ChipsetsViewModel : ObservableObject
 	{
 		private readonly IViewChipsetsUseCase viewChipsetsUseCase;
-		private readonly IDeleteChipsetUseCase deleteChipsetUseCase;
-		private readonly IViewChipsUseCase viewChipsUseCase;
+    private readonly IDeleteChipsetUseCase deleteChipsetUseCase;
+    private readonly IViewChipsUseCase viewChipsUseCase;
 		private readonly IEditChipsetUseCase editChipsetUseCase;
+    private readonly IDeleteChipUseCase deleteChipUseCase;
+    private readonly IAddChipsetUseCase addChipsetUseCase;
+    private readonly IAddChipUseCase addChipUseCase;
 
-		public ObservableCollection<Chipset> Chipsets { get; set; }
+    public ObservableCollection<Chipset> Chipsets { get; set; }
 
 		public ChipsetsViewModel(
 				IViewChipsetsUseCase viewChipsetsUseCase,
-				IDeleteChipsetUseCase deleteChipsetUseCase,
-				IViewChipsUseCase viewChipsUseCase,
-				IEditChipsetUseCase editChipsetUseCase
-				)
-		{
+        IDeleteChipsetUseCase deleteChipsetUseCase,
+        IViewChipsUseCase viewChipsUseCase,
+				IEditChipsetUseCase editChipsetUseCase,
+        IDeleteChipUseCase deleteChipUseCase,
+        IAddChipsetUseCase addChipsetUseCase,
+        IAddChipUseCase addChipUseCase
+        )
+    {
 			Chipsets = new ObservableCollection<Chipset>();
 
 			this.viewChipsetsUseCase = viewChipsetsUseCase;
-			this.deleteChipsetUseCase = deleteChipsetUseCase;
-			this.viewChipsUseCase = viewChipsUseCase;
-			this.editChipsetUseCase = editChipsetUseCase;
-		}
+      this.deleteChipsetUseCase = deleteChipsetUseCase;
+      this.viewChipsUseCase = viewChipsUseCase;
+      this.editChipsetUseCase = editChipsetUseCase;
+      this.deleteChipUseCase = deleteChipUseCase;
+      this.addChipsetUseCase = addChipsetUseCase;
+      this.addChipUseCase = addChipUseCase;
+    }
 
-		public async Task LoadChipsets()
+    public async Task LoadChipsets()
 		{
 			Chipsets.Clear();
 
@@ -72,7 +79,10 @@ namespace Contacts.Maui.ViewModels.Chipsets
 		{
 			await deleteChipsetUseCase.ExecuteAsync(chipsetId);
 
-			await LoadChipsets();
+      var chips = await viewChipsUseCase.ExecuteAsync(chipsetId.ToString());
+      await Helper.DeleteEntitiesAsync(chips, async (Chip chip) => await deleteChipUseCase.ExecuteAsync(chip.ChipId));
+
+      await LoadChipsets();
 		}
 
 		[RelayCommand]
@@ -87,7 +97,53 @@ namespace Contacts.Maui.ViewModels.Chipsets
 			await Shell.Current.GoToAsync(nameof(AddChipsetPage_MVVM));
 		}
 
-		[RelayCommand]
+    public async Task CopyChips(int newChipsetId)
+    {
+      var chipsetId = Helper.ChipsetId.ToString();
+
+      // load blinds with current GameId
+      var chips = await viewChipsUseCase.ExecuteAsync(chipsetId);
+
+      if (chips != null && chips?.Count > 0)
+        foreach (var chip in chips)
+        {
+          Chip chip_ = new();
+
+          Helper.MapProperties(chip, chip_);
+
+          chip_.ChipsetId = newChipsetId;
+
+          await addChipUseCase.ExecuteAsync(chip_);
+        }
+    }
+
+    [RelayCommand]
+    public async Task GotoCopyChipset()
+    {
+      int currentChipsetIndex = Chipsets
+          .Select((g, index) => new { Chipset = g, Index = index })
+          .FirstOrDefault(item => item.Chipset.ChipsetId == Helper.ChipsetId)?.Index ?? -1;
+
+      if (currentChipsetIndex != -1 && currentChipsetIndex < Chipsets.Count)
+      {
+        Chipset chipset = new();
+
+        // Ensure Helper.MapProperties correctly maps properties from source to target
+        Helper.MapProperties(Chipsets[currentChipsetIndex], chipset);
+
+        // Add new game
+        await addChipsetUseCase.ExecuteAsync(chipset);
+
+        // newly added game should be last in list
+        await LoadChipsets();
+
+        await CopyChips(Chipsets[^1].ChipsetId);
+
+        await LoadChipsets();
+      }
+
+    }
+    [RelayCommand]
 		public async Task GotoHome()
 		{
 			await Shell.Current.GoToAsync("..");

@@ -153,9 +153,7 @@ namespace Contacts.Maui.ViewModels.Blinds
       Blinds.Clear();
 
       var blinds = await viewBlindsUseCase.ExecuteAsync(Helper.GameId.ToString());
-
-      foreach (Blind blind in blinds)
-        await deleteBlindUseCase.ExecuteAsync(blind.BlindId);
+      await Helper.DeleteEntitiesAsync(blinds, async (Blind blind) => await deleteBlindUseCase.ExecuteAsync(blind.BlindId));
 
       await AddBlinds();
 

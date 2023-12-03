@@ -7,6 +7,12 @@
 		public static int GameId;
 		public static int ChipsetId;
 
+    public static async Task DeleteEntitiesAsync<T>(IEnumerable<T> entities, Func<T, Task> deleteAction)
+    {
+      foreach (var entity in entities)
+        await deleteAction(entity);
+    }
+
     public static void MapProperties(object source, object destination)
     {
       var sourceType = source.GetType();

@@ -6,7 +6,7 @@
              x:DataType="vm:ChipsetViewModel"
              x:Class="Contacts.Maui.Views_MVVM.Chipsets.ChipsetControl_MVVM">
 
-  <Grid Padding="1" RowDefinitions="*, *, 50" ColumnDefinitions="*" RowSpacing="5">
+  <Grid Padding="1" RowDefinitions="*, 50" ColumnDefinitions="*" RowSpacing="5">
 
     <VerticalStackLayout Spacing="5" Margin="10, 10, 10, 0">
 
@@ -22,9 +22,10 @@
     </VerticalStackLayout>
 
     <StackLayout Grid.Row="1" Grid.Column="0">
-      <Grid Padding="1" RowDefinitions="*" ColumnDefinitions="*, *" RowSpacing="5" ColumnSpacing="2" />
-      <Button Grid.Row="0" Grid.Column="0" x:Name="btnSave" Text="Save" />
-      <Button Grid.Row="0" Grid.Column="1" Text="Cancel" Command="{Binding BackToChipsetsCommand}" />
+      <Grid Padding="1" RowDefinitions="*" ColumnDefinitions="*, *" RowSpacing="5" ColumnSpacing="2">
+        <Button Grid.Row="0" Grid.Column="0" x:Name="btnSave" Text="Save" />
+        <Button Grid.Row="0" Grid.Column="1" Text="Cancel" Command="{Binding BackToChipsetsCommand}" />
+      </Grid>
     </StackLayout>
     
   </Grid>
