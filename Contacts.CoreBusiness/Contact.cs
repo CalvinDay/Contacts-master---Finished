@@ -15,7 +15,8 @@ namespace Contacts.CoreBusiness
 		public int GameId { get; set; }
 		public int BlindNo { get; set; } // for sorting
 		public int Amount { get; set; }
-		public int Ante { get; set; }
+    public int SmallBlind => Amount / 2;
+    public int Ante { get; set; }
 	}
 
 	public class Payout

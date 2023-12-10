@@ -12,15 +12,15 @@
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="117" />
-							<ColumnDefinition Width="117" />
-							<ColumnDefinition Width="117" />
-							<!--<ColumnDefinition Width="110" />-->
+              <ColumnDefinition Width="88" />
+              <ColumnDefinition Width="88" />
+              <ColumnDefinition Width="88" />
+              <ColumnDefinition Width="87" />
 						</Grid.ColumnDefinitions>
 						<Label Grid.Column="0" Text="Level" FontAttributes="Bold" HorizontalOptions="Center" />
-						<Label Grid.Column="1" Text="Amount" FontAttributes="Bold" HorizontalOptions="Center" />
-						<Label Grid.Column="2" Text="Ante" FontAttributes="Bold" HorizontalOptions="Center" />
-						<!--<Label Grid.Column="3" Text="" FontAttributes="Bold" HorizontalOptions="Center" />-->
+            <Label Grid.Column="1" Text="Big Blind" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Grid.Column="2" Text="Small Blind" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Grid.Column="3" Text="Ante" FontAttributes="Bold" HorizontalOptions="Center" />
 					</Grid>
 				</Frame>
 			</HorizontalStackLayout>
@@ -31,13 +31,13 @@
 			<CollectionView.ItemTemplate>
 				<DataTemplate x:DataType="m:Blind">
 					<StackLayout>
-						<!--<SwipeView>
+						<SwipeView>
 							<SwipeView.RightItems>
 								<SwipeItems>
 									<SwipeItem Text="Edit" IsDestructive="False" BackgroundColor="Green" Command="{Binding Source={x:Reference BlindsCollection}, Path=BindingContext.GotoEditBlindCommand}" CommandParameter="{Binding BlindId}"></SwipeItem>
 									<SwipeItem Text="Delete" IsDestructive="True" BackgroundColor="Red" Command="{Binding Source={x:Reference BlindsCollection}, Path=BindingContext.DeleteBlindCommand}" CommandParameter="{Binding BlindId}"></SwipeItem>
 								</SwipeItems>
-							</SwipeView.RightItems>-->
+							</SwipeView.RightItems>
 						<StackLayout>
 							<Frame Margin="0,0,0,0" BackgroundColor="Transparent">
 								<StackLayout Orientation="Horizontal" Spacing="1">
@@ -46,21 +46,20 @@
 											<RowDefinition Height="25" />
 										</Grid.RowDefinitions>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="117" />
-											<ColumnDefinition Width="117" />
-											<ColumnDefinition Width="117" />
-											<!--<ColumnDefinition Width="80" />
-											<ColumnDefinition Width="80" />-->
+											<ColumnDefinition Width="88" />
+											<ColumnDefinition Width="88" />
+                      <ColumnDefinition Width="88" />
+                      <ColumnDefinition Width="87" />
 										</Grid.ColumnDefinitions>
 										<Label Grid.Column="0" Text="{Binding BlindNo}" HorizontalOptions="Center" />
-										<Label Grid.Column="1" Text="{Binding Amount}" HorizontalOptions="Center" />
-										<Label Grid.Column="2" Text="{Binding Ante}" HorizontalOptions="Center" />
-										<!--<Label Grid.Column="3" Text="" HorizontalOptions="Center" />-->
+                    <Label Grid.Column="1" Text="{Binding Amount}" HorizontalOptions="Center" />
+                    <Label Grid.Column="2" Text="{Binding SmallBlind}" HorizontalOptions="Center" />
+                    <Label Grid.Column="3" Text="0" HorizontalOptions="Center" />
 									</Grid>
 								</StackLayout>
 							</Frame>
 						</StackLayout>
-						<!--</SwipeView>-->
+						</SwipeView>
 					</StackLayout>
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
