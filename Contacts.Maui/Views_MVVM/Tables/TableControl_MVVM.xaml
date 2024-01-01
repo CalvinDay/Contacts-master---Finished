@@ -12,8 +12,8 @@
 
       <Frame Padding="10, 2, 10, 2">
         <HorizontalStackLayout>
-          <Label Text="Table #" FontAttributes="Bold" VerticalOptions="Center" WidthRequest="100" />
-          <Entry VerticalOptions="Center" Text="{Binding Table.TableNo}" Focused="EntryFocused"/>
+					<Label Text="Table #" FontAttributes="Bold" VerticalOptions="Center" WidthRequest="100" />
+					<Entry VerticalOptions="Center" Text="{Binding Table.TableNo}" Focused="EntryFocused"/>
         </HorizontalStackLayout>
       </Frame>
 
