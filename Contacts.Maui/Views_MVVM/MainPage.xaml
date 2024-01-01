@@ -29,10 +29,10 @@
           </Image>
           <Image Grid.Row="0" Grid.Column="0" Source="base_new.png" HeightRequest="200" HorizontalOptions="Center">
             <Image.Behaviors>
-              <toolkit:IconTintColorBehavior TintColor="Black" />
+              <toolkit:IconTintColorBehavior TintColor="Bisque" />
             </Image.Behaviors>
           </Image>
-          <Label Grid.Row="0" Grid.Column="0" Text="1000000" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+          <Label Grid.Row="0" Grid.Column="0" Text="100K" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
         </Grid>
       </VerticalStackLayout>
 
